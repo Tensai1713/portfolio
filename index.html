@@ -4,95 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заблюренный видео фон</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-        }
-
-        h1 {
-          margin: 0;
-          padding: 0;
-        }
-
-        video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1;
-            transform: translate(-50%, -50%);
-            filter: blur(8px);
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            color: rgb(0, 0, 0);
-            text-align: center;
-            background-color: rgb(173, 173, 173);
-        }
-
-        .block {
-            height: 80vh;
-            opacity: 0; /* Начальное состояние - невидимо */
-            transition: opacity 0.6s ease-out, transform 0.9s ease-out;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: rgba(161, 159, 159, 0.7);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 40px;
-        }
-
-        .sites {
-            display: grid;
-            grid-template-rows: repeat(6, 1fr);
-            grid-template-columns: repeat(2, 1fr);
-            gap: 50px;
-            grid-template-areas:
-                "site1 ."
-                ". site2"
-                "site3 ."
-                ". site4"
-                "site5 ."
-                ". site6";
-        }
-
-        .sites > * {
-            padding: 0 20px;
-        }
-
-        .sites__site1-wrap { grid-area: site1; }
-        .sites__site2-wrap { grid-area: site2; }
-        .sites__site3-wrap { grid-area: site3; }
-        .sites__site4-wrap { grid-area: site4; }
-        .sites__site5-wrap { grid-area: site5; }
-        .sites__site6-wrap { grid-area: site6; }
-
-        .site-container {
-            overflow: hidden; /* Чтобы блоки не выходили за пределы контейнера */
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-
+<div class="cursor"></div>
 <video autoplay muted loop>
     <source src="./img/codding.mp4" type="video/mp4">
     Ваш браузер не поддерживает видео.
 </video>
 
-<div class="content">
-    <h1>Добро пожаловать на наш сайт!</h1>
-    <p>Это видеозадник с эффектом размытия!</p>
+<div class="wellcome">
+    <div class="wellcome__avatar"></div>
+    <p class="wellcome__name" >Приветствую, я Алексей, и я люблю кодить!</p>
+    <img class="wellcome__next-arrow" data-pointer src="./img/next_arrow.png" alt="">
 </div>
 
 <div class="sites">
@@ -116,33 +40,6 @@
     </div>
 </div>
 
-<script>
-    const siteContainers = document.querySelectorAll('.site-container');
-    const appearOptions = { threshold: 0.5 };
-
-    const appearOnScroll = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const block = entry.target.querySelector('.block');
-            if (entry.isIntersecting) {
-                block.style.opacity = '1'; // Делаем блок видимым
-                block.style.transform = `translateX(0)`; // Перемещаем в центр экрана
-            } else {
-                if (entry.target.classList.contains('sites__site1-wrap') ||
-                    entry.target.classList.contains('sites__site3-wrap') ||
-                    entry.target.classList.contains('sites__site5-wrap')) {
-                    block.style.transform = `translateX(-100vw)`; // Уводим влево для левых блоков
-                } else {
-                    block.style.transform = `translateX(100vw)`; // Уводим вправо для правых блоков
-                }
-                block.style.opacity = '0'; // Делаем блок невидимым
-            }
-        });
-    }, appearOptions);
-
-    siteContainers.forEach(container => {
-        appearOnScroll.observe(container); // Наблюдаем за каждым контейнером
-    });
-</script>
-
+<script src="./script.js"></script>
 </body>
 </html>
